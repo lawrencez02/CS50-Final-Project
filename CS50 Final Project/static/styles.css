@@ -1,0 +1,9 @@
+#usertime {
+    background-color: hsl(171, 100%, 41%);
+    color: white;
+    border: solid 1px white;
+}
+
+::placeholder {
+    color: white !important;
+}

@@ -1,0 +1,302 @@
+{% extends "layout.html" %}
+
+<!--Section for each social media network below-->
+
+{% block main %}
+<section class="section" id="Twitter">
+    <!--Small section for Twitter title and logo-->
+    <div class="columns is-centered is-vcentered">
+      <div class="column">
+        <span class="title">Twitter</span><br>
+      </div>
+      <div class="column">
+        <figure class="image is-128x128">
+            <img src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c53e.png">
+        </figure>
+      </div>
+    </div>
+    <div class="columns is-gapless">
+        <!--Column for Twitter's U.S. Trending Topics-->
+        <div class="column">
+            <h2 class="subtitle">U.S. Trending Topics</h2>
+            {% for value in tweets %}
+                {% for trend in value['trends'] %}
+                    <!--For tweets/hashtags that have lots of tweet volume, display in table-->
+                    {% if trend['tweet_volume'] is not none %}
+                        <article class="media">
+                            <div class="media-content">
+                        	    <div class="content">
+                        	        <p>
+                        	            {{ trend['name'] }}
+                        	        </p>
+                                </div>
+                        	</div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <!--Column for tweet count of appropriate tweets/hashtags-->
+        <div class="column">
+            <h2 class="subtitle">Tweet Count</h2>
+            {% for value in tweets %}
+                {% for trend in value['trends'] %}
+                    {% if trend['tweet_volume'] is not none %}
+                        <article class="media">
+                            <div class="media-content">
+                        	    <div class="content">
+                        	        <p>
+                        	            {{ trend['tweet_volume'] }}
+                        	        </p>
+                                </div>
+                        	</div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <!--Column for globally trending tweets/hashtags-->
+        <div class="column">
+            <h2 class="subtitle">Global Trending Topics</h2>
+            {% for value in gtweets %}
+                {% for trend in value['trends'] %}
+                    {% if trend['tweet_volume'] is not none %}
+                        <article class="media">
+                            <div class="media-content">
+                        	    <div class="content">
+                        	        <p>
+                        	            {{ trend['name'] }}
+                        	        </p>
+                                </div>
+                        	</div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <!--Column for tweet/hashtag counts of appropriate global trends-->
+        <div class="column">
+            <h2 class="subtitle">Tweet Count</h2>
+            {% for value in gtweets %}
+                {% for trend in value['trends'] %}
+                    {% if trend['tweet_volume'] is not none %}
+                        <article class="media">
+                            <div class="media-content">
+                        	    <div class="content">
+                        	        <p>
+                        	            {{ trend['tweet_volume'] }}
+                        	        </p>
+                                </div>
+                        	</div>
+                        </article>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section class="section" id="Reddit">
+    <!--Small section for Reddit title and logo-->
+    <div class="columns is-centered is-vcentered">
+      <div class="column">
+        <span class="title">Reddit</span><br>
+      </div>
+      <div class="column">
+        <figure class="image is-128x128">
+            <img src="https://cdn0.iconfinder.com/data/icons/most-usable-logos/120/Reddit-512.png">
+        </figure>
+      </div>
+    </div>
+
+    <div class="columns is-gapless is-multiline">
+        <!--Column for Reddit's hottest post titles-->
+        <div class="column is-two-thirds">
+            <h2 class="subtitle">Post Titles</h2>
+            {% for post in redditposts %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            <!--Need to make sure post titles fit on one row in the table-->
+                            {% if post.title|length < 80 %}
+                                {{ post.title }}
+                            {% endif %}
+                            {% if post.title|length >= 80 %}
+                                {{ post.title[:80] + "..." }}
+                            {% endif %}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+        <!--Column for which subreddits the posts are in-->
+        <div class="column">
+            <h2 class="subtitle">Subreddit</h2>
+            {% for post in redditposts %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                        	   r/{{ post.subreddit }}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+        <!--Column for how many upvotes the hottest posts got-->
+        <div class="column">
+            <h2 class="subtitle">Upvotes</h2>
+            {% for post in redditposts %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                        	   {{ post.score }}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section" id="YouTube">
+    <!--Section for YouTube Title and logo-->
+    <div class="columns is-centered is-vcentered">
+      <div class="column">
+        <span class="title">YouTube</span><br>
+      </div>
+      <div class="column">
+        <figure class="image is-128x128">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/YouTube_social_white_square_%282017%29.svg/1024px-YouTube_social_white_square_%282017%29.svg.png">
+        </figure>
+      </div>
+    </div>
+
+    <div class="columns is-gapless is-multiline">
+        <!--Column for titles of YouTube trending videos-->
+        <div class="column is-half">
+            <h2 class="subtitle">Titles</h2>
+            {% for video in ytrends['items'] %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            <!--Ensure video titles are not too long-->
+                            {% if video['snippet']['title']|length < 60 %}
+                                {{ video['snippet']['title'] }}
+                            {% endif %}
+                            {% if video['snippet']['title']|length >= 60 %}
+                                {{ video['snippet']['title'][:60] + "..." }}
+                            {% endif %}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+        <!--Column for channels those videos are from-->
+        <div class="column is-one-fifth">
+            <h2 class="subtitle">Channels</h2>
+            {% for video in ytrends['items'] %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                {{ video['snippet']['channelTitle'] }}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <!--Column for video descriptions-->
+        <div class="column">
+            <h2 class="subtitle">Description</h2>
+            {% for video in ytrends['items'] %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            {% if video['snippet']['description']|length < 40 %}
+                                {{ video['snippet']['description'] }}
+                            {% endif %}
+                            {% if video['snippet']['description']|length >= 40 %}
+                                {{ video['snippet']['description'][:40] + "..." }}
+                            {% endif %}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+
+</section>
+
+
+
+<section class="section" id="News/Google">
+    <!--Section for News/Google titles and logos-->
+    <div class="columns is-centered is-vcentered">
+      <div class="column">
+        <span class="title">News and Google</span><br>
+      </div>
+      <div class="column">
+        <figure class="image is-128x128">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Circle-icons-news.svg/1200px-Circle-icons-news.svg.png">
+        </figure>
+      </div>
+      <div class="column is-one-third">
+        <figure class="image is-128x128">
+            <img src="https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip">
+        </figure>
+      </div>
+    </div>
+
+    <div class="columns is-gapless is-multiline">
+        <!--Column for news headlines-->
+        <div class="column">
+            <h2 class="subtitle">Headlines</h2>
+            {% for article in articles %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            {% if article['title']|length < 80 %}
+                                {{ article['title'] }}
+                            {% endif %}
+                            {% if article['title']|length >= 80 %}
+                                {{ article['title'][:80] + "..." }}
+                            {% endif %}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+        <!--Column for U.S. Google Trending Searches-->
+        <div class="column is-one-third">
+            <h2 class="subtitle">U.S. Trending Searches Now</h2>
+            {% for element in gtrends %}
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                            {{ element[0] }}
+                        	</p>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

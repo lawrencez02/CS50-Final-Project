@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Importing Bulma's stylesheet-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <title>Detox</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
+    <link href="/static/styles.css" rel="stylesheet">
+    <script>
+    // This JavaScript function displays the modal warning them their time is up
+    // after the appropriate amount of time as entered by the user
+          function setTime()
+          {
+              const modal = document.querySelector('.modal')
+              const usertime = document.querySelector('#usertime').value;
+              if (usertime != "NULL" && usertime != 0)
+              {
+                  setTimeout( function(){
+                  modal.style.display = 'block'
+                }, usertime * 60 * 1000);
+              }
+          }
+    </script>
+  </head>
+  <body>
+      <section class="hero is-primary is-fullheight" id="first">
+        <div class="hero-body">
+          <div class="container">
+            <div class="columns is-mobile is-centered is-vcentered">
+              <div class="column is-one-fifth">
+                <span class="title is-1">Detox</span><br>
+              </div>
+              <div class="column">
+                <figure class="image is-128x128">
+                  <img src="/static/leaf.png" alt="Green leaf">
+                </figure>
+              </div>
+            </div>
+            <h3 class="subtitle is-3">
+              No distractions, no addictiveness. Just the best of the internet, without the rest.
+            </h3>
+            <h5 class="subtitle is-5">
+              Set a timer below, or not. Then, scroll down, or click the buttons below to see your favorite content, simplified.
+            </h5>
+            <!--Form that lets the user enter an amount of time-->
+            <nav class="level">
+              <div class="field has-addons is-grouped">
+                <div class="control">
+                  <input id = "usertime" class="input" type="number" placeholder="Mins" min="0.1" max="60" step=".1">
+                </div>
+
+                <p class="control">
+                  <!--Button that calls the above JavaScript function-->
+                  <a class="button is-primary is-outlined is-inverted" onclick="setTime()">
+                    Enter
+                  </a>
+                </p>
+              </div>
+              <!--Buttons that link to different sections of the page-->
+              <div class="buttons">
+                <a class="button is-primary is-outlined is-inverted" href="#Twitter">Twitter</a>
+                <a class="button is-primary is-outlined is-inverted" href="#Reddit">Reddit</a>
+                <a class="button is-primary is-outlined is-inverted" href="#YouTube">YouTube</a>
+                <a class="button is-primary is-outlined is-inverted" href="#News/Google">News/Google</a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+    <!--Implements the modal that pops up after time is called, so that the user knows-->
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title is-centered">Time's up!</p>
+        </header>
+        <section class="modal-card-body">
+          <h2 class='subtitle is-centered'>Time to leave Detox and get back into the real world.</h2>
+        </section>
+      </div>
+    </div>
+
+      {% block main %}
+      {% endblock %}
+
+      <!--Footer at the end of the page-->
+      <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            And you're done, early! Extra time for work or family and friends. They'll appreciate it, I know.
+          </p>
+          <p>
+            <strong>Detox</strong> by <a target="_blank" href="https://www.linkedin.com/in/lawrence-zhang-18613a1a6/">Lawrence Zhang</a>.
+          </p>
+          <p>
+            Logos displayed belong to various companies.
+          </p>
+        </div>
+      </footer>
+  </body>
+</html>
